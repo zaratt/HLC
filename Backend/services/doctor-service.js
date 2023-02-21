@@ -12,6 +12,19 @@ class DoctorService {
 
     findDoctors = async filter => await DoctorModel.find(filter).populate('team');
 
+    findFreeDoctors = async (req, res, next) => await DoctorModel.aggregate([
+        { $match: { "teamId": '_id' } },
+        {
+            $lookup:
+            {
+                from: "teams",
+                localField: "teamId",
+                foreignField: "_id",
+                as: "team"
+            }
+        },
+    ])
+
     //findCount = async filter => await DoctorModel.find(filter).countDocuments();
 
 

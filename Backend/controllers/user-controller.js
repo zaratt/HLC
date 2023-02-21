@@ -88,9 +88,9 @@ class UserController {
 
     getFreeMembers = async (req, res, next) => {
         const emps = await userService.findUsers({ type: 'member', team: null });
-        if (!emps || emps.length < 1) return next(ErrorHandler.notFound(`Membro livre não encontrado`));
+        if (!emps || emps.length < 1) return next(ErrorHandler.notFound(`Não foi encontrado nenhum membro sem grupo`));
         const members = emps.map((o) => new UserDto(o));
-        res.json({ success: true, message: 'Lista de membros livres encontrado', data: members })
+        res.json({ success: true, message: 'Lista de membros sem grupo encontrado', data: members })
     }
 
 

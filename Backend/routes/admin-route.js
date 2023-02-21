@@ -8,7 +8,7 @@ const asyncMiddleware = require('../middlewares/async-middleware');
 router.post('/user', upload.single('profile'), asyncMiddleware(userController.createUser));           // Create User
 router.patch('/user/:id', upload.single('profile'), asyncMiddleware(userController.updateUser));      // Update User
 router.get('/members', asyncMiddleware(userController.getUsers));                                  // Members
-router.get('/members/livres', asyncMiddleware(userController.getFreeMembers));                     // Free Members
+router.get('/members/free', asyncMiddleware(userController.getFreeMembers));                     // Free Members
 router.get('/member/:id', asyncMiddleware(userController.getUser));                                // Member
 router.get('/user/:id', asyncMiddleware(userController.getUserNoFilter));                            // User - No Filter (Admin,Leader,Member)
 router.get('/admins', asyncMiddleware(userController.getUsers));                                     // Admins
@@ -28,7 +28,8 @@ router.patch('/team/leader/remove', asyncMiddleware(teamController.addRemoveLead
 router.post('/doctor', upload.single('image'), asyncMiddleware(doctorController.createDoctor));    // Create Doctor
 router.get('/doctors/:id', asyncMiddleware(doctorController.updateDoctor));                          // Update a Doctor
 router.get('/doctors', asyncMiddleware(doctorController.getDoctors));                                // Doctors
-router.get('/doctors/:id', asyncMiddleware(doctorController.getDoctor));                             // Doctor
+router.get('/doctor/:id', asyncMiddleware(doctorController.getDoctor));                             // Doctor
+router.get('/doctors/free', asyncMiddleware(doctorController.getFreeDoctors));                     // Free Doctors
 
 
 

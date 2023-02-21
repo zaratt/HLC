@@ -96,13 +96,16 @@ const doctorSchema = new Schema({
     },
     team: {
         type: Schema.Types.ObjectId,
-        ref: 'Team'
+        ref: 'Team',
+        unique: true
     },
 
 
 }, {
     timestamps: true
 });
+
+
 
 
 
