@@ -63,8 +63,8 @@ const doctorSchema = new Schema({
 
     patient_type: {
         type: String,
-        enum: ['adulto', 'ambos', 'pediátrico'],
-        default: 'ambos'
+        enum: ['Adulto', 'Ambos', 'Pediátrico'],
+        default: 'Ambos'
     },
 
     sus: {
@@ -75,7 +75,7 @@ const doctorSchema = new Schema({
 
     last_visit: {
         type: Date,
-        default: '01/01/2000'
+        required: false
     },
 
     tj: {

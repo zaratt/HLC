@@ -2,44 +2,58 @@ const ErrorHandler = require('../utils/error-handler');
 const userService = require('../services/user-service');
 const DoctorDto = require('../dtos/doctor-dto');
 const mongoose = require('mongoose');
-const teamService = require('../services/team-service');
+//const teamService = require('../services/team-service');
 const doctorService = require('../services/doctor-service')
 
 class DoctorController {
 
     createDoctor = async (req, res, next) => {
-        const { type, team } = req.body;
-
-        type = type.toLowerCase();
-        team = team.toLowerCase();
-
-        //Verifying if type(admin, team member, team leader)
-        if ({ type: 'admin' || 'member' || 'leader', team: req.user.team })
-            if (type && team != null) return next(ErrorHandler.badRequest(`Erro : ${dbUser.name} não pode cadastrar médicos.`));
-
 
         const image = req.file && req.file.filename;
-        const { name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid } = req.body;
+        const { name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid, team } = req.body;
         if (!name || !email || !mobile) return next(ErrorHandler.badRequest('Campos obrigatórios'));
 
+        type = type.toLowerCase();
 
-        const doctor = {
+        if (type === 'admin') {
             name,
-            email,
-            address,
-            mobile,
-            image,
-            specialty1,
-            specialty2,
-            specialty3,
-            subspecialty,
-            patient_type,
-            sus,
-            last_visit,
-            tj,
-            hid
+                email,
+                address,
+                mobile,
+                image,
+                specialty1,
+                specialty2,
+                specialty3,
+                subspecialty,
+                patient_type,
+                sus,
+                last_visit,
+                tj,
+                hid
         }
 
+        const doctor = {
+            name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid
+        }
+
+
+        if (type === 'member') {
+            name,
+                email,
+                address,
+                mobile,
+                image,
+                specialty1,
+                specialty2,
+                specialty3,
+                subspecialty,
+                patient_type,
+                sus,
+                last_visit,
+                tj,
+                hid,
+                team
+        }
 
         const doctorResp = await doctorService.createDoctor(doctor);
         if (!doctorResp) return next(ErrorHandler.serverError('Erro ao cadastrar o médico'));
