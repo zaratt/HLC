@@ -11,7 +11,7 @@ const doctorSchema = new Schema({
     },
     email: {
         type: String,
-        required: [true, 'Informe um email válido'],
+        required: 'Informe um email válido',
         unique: [true, 'Esse email já existe'],
         trim: true,
         validate: {
@@ -104,8 +104,6 @@ const doctorSchema = new Schema({
 }, {
     timestamps: true
 });
-
-
 
 
 
