@@ -40,7 +40,7 @@ class DoctorController {
         }
 
 
-        if (type === 'member') {
+        if (type === 'leader' || 'member') {
             name,
                 email,
                 address,
