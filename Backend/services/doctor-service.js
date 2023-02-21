@@ -25,7 +25,7 @@ class DoctorService {
         },
     ])
 
-    //findCount = async filter => await DoctorModel.find(filter).countDocuments();
+    findCount = async filter => await DoctorModel.find(filter).countDocuments();
 
 
 
