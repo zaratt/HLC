@@ -35,9 +35,11 @@ class DoctorDto {
             this.tj = doctor.tj,
             this.hid = doctor.hid,
             this.status = doctor.status && doctor.status.charAt(0).toUpperCase() + doctor.status.slice(1),
-            this.team = doctor.team && doctor.team.name && new TeamDto(doctor.team);
+            this.team = doctor.team && new TeamDto(Array.isArray(doctor.team) && doctor.team.length > 0 ? doctor.team[0] : doctor.team);
 
     }
+
+    /* this.team = user.team && new TeamDto(Array.isArray(user.team) && user.team.length>0 ? user.team[0] : user.team); */
 
 }
 
