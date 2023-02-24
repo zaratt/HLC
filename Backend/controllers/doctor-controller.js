@@ -39,7 +39,11 @@ class DoctorController {
 
         else {
 
-            if ((type === 'leader') && (type === 'member'))
+            const { teamId, userId } = req.body;
+            if (!mongoose.Types.ObjectId.isValid(teamId)) return next(ErrorHandler.badRequest('Team ID inválido'));
+            if (!mongoose.Types.ObjectId.isValid(userId)) return next(ErrorHandler.badRequest('Member ID inválido'));
+            const user = await userService.findUser({ _id: userId });
+            if ((user.type === 'leader' && 'member'))
                 if (await teamService.findTeam({ team: id })) return next(ErrorHandler.badRequest(`Erro : ${user.name} Não pertence a um grupo.`));
             const { name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid, team } = req.body;
             doctor = {
