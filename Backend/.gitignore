@@ -22,3 +22,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# javascript files
+mail-config copy.js
+doctor-controller.js

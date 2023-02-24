@@ -1,12 +1,12 @@
 const nodeMailer = require('nodemailer');
-const smtpHost = process.env.SMTP_HOST || 'live.smtp.mailtrap.io';
+const smtpHost = process.env.SMTP_HOST;
 const smtpPort = process.env.SMTP_PORT || 587;
 const smtpSecure = process.env.SMTP_SECURE || false;
 const smtpRequireTLS = process.env.SMTP_REQUIRE_TLS || true;
-const smtpName = process.env.SMTP_SENDER_NAME || 'Colih App';
-const smtpSender = process.env.SMTP_SENDER || 'mailtrap@lodgytechnology.com';
-const smtpAuthUser = process.env.SMTP_AUTH_USER || 'api';
-const smtpAuthPass = process.env.SMTP_AUTH_PASS || 'd5f5b4e0573a5bef094f61cc47a53b46';
+const smtpName = process.env.SMTP_SENDER_NAME;
+const smtpSender = process.env.SMTP_SENDER;
+const smtpAuthUser = process.env.SMTP_AUTH_USER;
+const smtpAuthPass = process.env.SMTP_AUTH_PASS;
 
 transpoter = nodeMailer.createTransport({
     host: smtpHost,
