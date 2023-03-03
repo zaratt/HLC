@@ -25,4 +25,4 @@ yarn-error.log*
 
 # javascript files
 mail-config copy.js
-doctor-controller.js
+doctor-controller copy.js

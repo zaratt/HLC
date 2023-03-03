@@ -13,6 +13,7 @@ class MailTemplate {
         return { subject, text };
     }
 
+
 }
 
 module.exports = new MailTemplate();

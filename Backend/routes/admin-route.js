@@ -30,6 +30,8 @@ router.patch('/doctors/:id', upload.single('image'), asyncMiddleware(doctorContr
 router.get('/doctors', asyncMiddleware(doctorController.getDoctors));                                    // Doctors
 router.get('/doctor/:id', asyncMiddleware(doctorController.getDoctor));                                  // Doctor
 router.get('/doctors/free', asyncMiddleware(doctorController.getFreeDoctors));                           // Free Doctors
+router.patch('/team/doctor/add', asyncMiddleware(teamController.addDoctor));                             // Add Team Member
+router.get('/team/:id/doctors', asyncMiddleware(teamController.getTeamDoctors));                         // Team Members
 
 
 

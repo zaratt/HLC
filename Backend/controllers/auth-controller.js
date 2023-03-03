@@ -19,7 +19,7 @@ class AuthController {
             data = { username: email };
         const user = await userService.findUser(data);
         if (!user) return next(ErrorHandler.badRequest('Email ou Usuário Inválido'));
-        const { _id, name, username, email: dbEmail, password: hashPassword, type, status } = user;
+        const { _id, name, username, email: dbEmail, password: hashPassword, type, status, team } = user;
         if (status != 'ativo') return next(ErrorHandler.badRequest('Há uma problema com sua conta, contate o administrador'));
         const isValid = await userService.verifyPassword(password, hashPassword);
         if (!isValid) return next(ErrorHandler.badRequest('Senha Incorreta'));
@@ -28,7 +28,7 @@ class AuthController {
             name,
             email: dbEmail,
             username,
-            type
+            type,
         }
         const { accessToken, refreshToken } = tokenService.generateToken(payload);
         await tokenService.storeRefreshToken(_id, refreshToken);
