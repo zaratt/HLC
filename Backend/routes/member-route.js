@@ -7,7 +7,7 @@ const upload = require('../services/file-upload-service');
 
 
 router.patch('/user', upload.single('profile'), asyncMiddleware(userController.updateUser));          // Update Self Account
-router.post('/doctor', upload.single('image'), asyncMiddleware(doctorController.createDoctor));         // Create Doctor
+router.post('/doctor', upload.single('image'), asyncMiddleware(doctorController.createDoctorMember));         // Create Doctor
 router.patch('/doctors/:id', upload.single('image'), asyncMiddleware(doctorController.updateDoctor));   // Update a Doctor
 router.get('/doctors', asyncMiddleware(doctorController.getDoctors));                                    // Doctors
 router.get('/doctor/:id', asyncMiddleware(doctorController.getDoctor));                                  // Doctor

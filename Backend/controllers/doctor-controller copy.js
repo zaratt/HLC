@@ -73,6 +73,10 @@ class DoctorController {
                     doctor = {
                         name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid, team, image: filename
                     }
+
+                    const doctorResp = await doctorService.createDoctor(doctor);
+                    if (!doctorResp) return next(ErrorHandler.serverError('Erro ao registrar o médico'));
+                    res.json({ success: true, message: 'Médico criado com sucesso', doctor: new DoctorDto(DoctorResp) });
                 }
 
 

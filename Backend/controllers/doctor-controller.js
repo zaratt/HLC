@@ -11,71 +11,76 @@ class DoctorController {
     createDoctor = async (req, res, next) => {
 
         {
-            const { teamId, type } = req.body;
-            const user = await userService.findUsers({ team: teamId, type });
 
-            {
+            const image = req.file && req.file.filename;
+            const { name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid } = req.body;
+            if (!name || !email || !mobile) return next(ErrorHandler.badRequest('Campos obrigatórios'));
 
-                const image = req.file && req.file.filename;
-                const { name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid } = req.body;
-                if (!name || !email || !mobile) return next(ErrorHandler.badRequest('Campos obrigatórios'));
-
-                type = type.toLowerCase();
-                if (type === 'admin') {
-                    name,
-                        email,
-                        address,
-                        mobile,
-                        image,
-                        specialty1,
-                        specialty2,
-                        specialty3,
-                        subspecialty,
-                        patient_type,
-                        sus,
-                        last_visit,
-                        tj,
-                        hid
+            type = type.toLowerCase();
+            if (type === 'admin') {
+                name,
+                    email,
+                    address,
+                    mobile,
+                    image,
+                    specialty1,
+                    specialty2,
+                    specialty3,
+                    subspecialty,
+                    patient_type,
+                    sus,
+                    last_visit,
+                    tj,
+                    hid
 
 
-                    doctor = {
-                        name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid, image: filename
-                    }
+                doctor = {
+                    name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid, image: filename
                 }
+
+                const doctorResp = await doctorService.createDoctor(doctor);
+                if (!doctorResp) return next(ErrorHandler.serverError('Erro ao registrar o médico'));
+                res.json({ success: true, message: 'Médico criado com sucesso', doctor: new DoctorDto(DoctorResp) });
             }
         }
-                else {
 
+    }
+
+    createDoctorMember = async (req, res, next) => {
+
+        {
+            const { type, teamId } = req.body;
+            const teamUser = await userService.findUser(type, { team: teamId });
+            const image = req.file && req.file.filename;
+            const { name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid, team } = req.body;
+            if (!name || !email || !mobile) return next(ErrorHandler.badRequest('Campos obrigatórios'));
+
+            type = type.toLowerCase();
             if (type === 'leader' || type === 'member') {
-
-                const image = req.file && req.file.filename;
-                const { name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid, team } = req.body;
-                if (!name || !email || !mobile) return next(ErrorHandler.badRequest('Campos obrigatórios'));
-
-                {
-                    name,
-                        email,
-                        address,
-                        mobile,
-                        image,
-                        specialty1,
-                        specialty2,
-                        specialty3,
-                        subspecialty,
-                        patient_type,
-                        sus,
-                        last_visit,
-                        tj,
-                        hid,
-                        team = teamId
+                name,
+                    email,
+                    address,
+                    mobile,
+                    image,
+                    specialty1,
+                    specialty2,
+                    specialty3,
+                    subspecialty,
+                    patient_type,
+                    sus,
+                    last_visit,
+                    tj,
+                    hid,
+                    team = teamUser(teamId)
 
 
-                    doctor = {
-                        name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid, team, image: filename
-                    }
+                doctor = {
+                    name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid, team, image: filename
                 }
 
-
+                const doctorResp = await doctorService.createDoctor({ team: teamId }, doctor);
+                if (!doctorResp) return next(ErrorHandler.serverError('Erro ao registrar o médico'));
+                res.json({ success: true, message: 'Médico criado com sucesso', doctor: new DoctorDto(DoctorResp) });
             }
         }
     }
