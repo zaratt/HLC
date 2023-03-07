@@ -16,8 +16,7 @@ class DoctorController {
             const { name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid } = req.body;
             if (!name || !email || !mobile) return next(ErrorHandler.badRequest('Campos obrigatórios'));
 
-            type = type.toLowerCase();
-            if (type === 'admin') {
+            if (['admin'].includes(type.toLowerCase())) {
                 name,
                     email,
                     address,
@@ -49,14 +48,14 @@ class DoctorController {
     createDoctorMember = async (req, res, next) => {
 
         {
-            const { type, teamId } = req.body;
+            let { type, teamId } = req.body;
             const teamUser = await userService.findUser(type, { team: teamId });
             const image = req.file && req.file.filename;
             const { name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid, team } = req.body;
             if (!name || !email || !mobile) return next(ErrorHandler.badRequest('Campos obrigatórios'));
 
-            type = type.toLowerCase();
-            if (type === 'leader' || type === 'member') {
+
+            if (['leader', 'member'].includes(type.toLowerCase())) {
                 name,
                     email,
                     address,
