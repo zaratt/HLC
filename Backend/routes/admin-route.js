@@ -25,8 +25,8 @@ router.patch('/team/member/add', asyncMiddleware(teamController.addMember));    
 router.patch('/team/member/remove', asyncMiddleware(teamController.removeMember));                        // Remove Team Member
 router.patch('/team/leader/add', asyncMiddleware(teamController.addRemoveLeader));                       // Add Team Leader
 router.patch('/team/leader/remove', asyncMiddleware(teamController.addRemoveLeader));                   // Remove Team Leader
-router.post('/doctor', upload.single('image'), asyncMiddleware(doctorController.createDoctor));         // Create Doctor
-router.patch('/doctors/:id', upload.single('image'), asyncMiddleware(doctorController.updateDoctor));   // Update a Doctor
+router.post('/doctor', upload.single('profile'), asyncMiddleware(doctorController.createDoctor));         // Create Doctor
+router.patch('/doctors/:id', upload.single('profile'), asyncMiddleware(doctorController.updateDoctor));   // Update a Doctor
 router.get('/doctors', asyncMiddleware(doctorController.getDoctors));                                    // Doctors
 router.get('/doctor/:id', asyncMiddleware(doctorController.getDoctor));                                  // Doctor
 router.get('/doctors/free', asyncMiddleware(doctorController.getFreeDoctors));                           // Free Doctors

@@ -1,5 +1,6 @@
 const ErrorHandler = require('../utils/error-handler');
-const userService = require('../services/user-service');
+/* const userService = require('../services/user-service'); */
+/* const UserDto = require('../dtos/user-dto'); */
 const doctorService = require('../services/doctor-service')
 const DoctorDto = require('../dtos/doctor-dto');
 const mongoose = require('mongoose');
@@ -40,22 +41,27 @@ class DoctorController {
                 const doctorResp = await doctorService.createDoctor(doctor);
                 if (!doctorResp) return next(ErrorHandler.serverError('Erro ao registrar o médico'));
                 res.json({ success: true, message: 'Médico criado com sucesso', doctor: new DoctorDto(DoctorResp) });
-            }
-        }
 
+            }
+
+        }
     }
 
-    createDoctorMember = async (req, res, next) => {
-
+    /* createDoctorMember = async (req, res, next) => {
+ 
         {
-            let { type, teamId } = req.body;
-            const teamUser = await userService.findUser(type, { team: teamId });
+            const { userId, teamId } = req.body;
+            if (!teamId || !userId) return next(ErrorHandler.notFound('Não encontrado ID válido para grupo ou usuário!'));
+            const user = await userService.findUser({ _id: userId });
+            if (user.type != 'admin') return next(ErrorHandler.badRequest(`${user.name} não é pertence ao grupo`));
+ 
             const image = req.file && req.file.filename;
             const { name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid, team } = req.body;
             if (!name || !email || !mobile) return next(ErrorHandler.badRequest('Campos obrigatórios'));
-
-
-            if (['leader', 'member'].includes(type.toLowerCase())) {
+ 
+ 
+            type = type.toLowerCase();
+            if (type === 'member') {
                 name,
                     email,
                     address,
@@ -70,19 +76,20 @@ class DoctorController {
                     last_visit,
                     tj,
                     hid,
-                    team = teamUser(teamId)
-
-
+                    team
+ 
+ 
                 doctor = {
                     name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid, team, image: filename
                 }
-
-                const doctorResp = await doctorService.createDoctor({ team: teamId }, doctor);
+ 
+                const doctorResp = await doctorService.createDoctor({ doctor, team: teamId });
                 if (!doctorResp) return next(ErrorHandler.serverError('Erro ao registrar o médico'));
+                if (doctor.team) return next(ErrorHandler.badRequest(`${doctor.name} já pertence ao grupo`));
                 res.json({ success: true, message: 'Médico criado com sucesso', doctor: new DoctorDto(DoctorResp) });
             }
         }
-    }
+    } */
 
     updateDoctor = async (req, res, next) => {
         const { id } = req.params;
@@ -91,7 +98,7 @@ class DoctorController {
         const { name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid, status, team } = req.body;
         const image = req.file && req.file.filename;
         status = status && status.toLowerCase();
-        if (user && !mongoose.Types.ObjectId.isValid(user)) return next(ErrorHandler.badRequest('User ID inválido'));
+        if (user && !mongoose.Types.ObjectId.isValid(user)) return next(ErrorHandler.badRequest('ID de usuário inválido'));
 
         const doctor = {
             name,
@@ -122,7 +129,7 @@ class DoctorController {
         let { name, email, address, mobile, specialty1, specialty2, specialty3, subspecialty, patient_type, sus, last_visit, tj, hid, status, team } = req.body;
         const image = req.file && req.file.filename;
         status = status && status.toLowerCase();
-        if (user && !mongoose.Types.ObjectId.isValid(user)) return next(ErrorHandler.badRequest('User ID inválido'));
+        if (user && !mongoose.Types.ObjectId.isValid(user)) return next(ErrorHandler.badRequest('ID de usuário inválido'));
 
         const doctor = {
             name,
@@ -167,8 +174,8 @@ class DoctorController {
     getFreeDoctors = async (req, res, next) => {
         const doctors = await doctorService.findFreeDoctors({ teamId: null });
         if (!doctors) return next(ErrorHandler.notFound('Não existem médicos sem grupos'));
-        const data = doctors.map((o) => new DoctorDto(o));
-        res.json({ success: true, message: 'Médicos sem grupo encontrado', data })
+        const dts = doctors.map((o) => new DoctorDto(o));
+        res.json({ success: true, message: 'Médicos sem grupo encontrado', data: dts })
     }
 
 

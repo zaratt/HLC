@@ -79,17 +79,17 @@ class UserController {
 
     getUsers = async (req, res, next) => {
         const type = req.path.split('/').pop().replace('s', '');
-        const emps = await userService.findUsers({ type });
-        if (!emps || emps.length < 1) return next(ErrorHandler.notFound(`Não ${type.charAt(0).toUpperCase() + type.slice(1).replace(' ', '')} Encontrado`));
-        const members = emps.map((o) => new UserDto(o));
+        const usrs = await userService.findUsers({ type });
+        if (!usrs || usrs.length < 1) return next(ErrorHandler.notFound(`Não ${type.charAt(0).toUpperCase() + type.slice(1).replace(' ', '')} Encontrado`));
+        const members = usrs.map((o) => new UserDto(o));
         res.json({ success: true, message: `${type.charAt(0).toUpperCase() + type.slice(1).replace(' ', '')} Lista Encontrada`, data: members })
     }
 
 
     getFreeMembers = async (req, res, next) => {
-        const emps = await userService.findUsers({ type: 'member', team: null });
-        if (!emps || emps.length < 1) return next(ErrorHandler.notFound(`Não foi encontrado nenhum membro sem grupo`));
-        const members = emps.map((o) => new UserDto(o));
+        const mbrs = await userService.findUsers({ type: 'member', team: null });
+        if (!mbrs || mbrs.length < 1) return next(ErrorHandler.notFound(`Não foi encontrado nenhum membro sem grupo`));
+        const members = mbrs.map((o) => new UserDto(o));
         res.json({ success: true, message: 'Lista de membros sem grupo encontrado', data: members })
     }
 
